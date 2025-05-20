@@ -18,6 +18,10 @@ public class LeitorSpecification {
                 predicates.add(cb.like(cb.lower(root.get("nome")), "%" + filter.nome().toLowerCase() + "%"));
             }
 
+            if (filter.status() != null) {
+                predicates.add(cb.equal(root.get("status"), filter.status()));
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }

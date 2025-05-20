@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.mottuGestor.model.Leitor;
+import br.com.fiap.mottuGestor.model.StatusType;
 import br.com.fiap.mottuGestor.repository.LeitorRepository;
 import br.com.fiap.mottuGestor.specification.LeitorSpecification;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/leitores")
 @Slf4j
 public class LeitorController {
-     public record LeitorFilter(String nome) {
+     public record LeitorFilter(String nome, StatusType status) {
     }
 
     @Autowired
