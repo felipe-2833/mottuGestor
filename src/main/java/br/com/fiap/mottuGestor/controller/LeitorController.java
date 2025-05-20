@@ -43,7 +43,7 @@ public class LeitorController {
     @Cacheable("leitores")
     @Operation(description = "Listar leitores", tags = "leitores", summary = "Lista de leitores")
     public Page<Leitor> index(LeitorFilter filter,
-            @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando leitores com filtro", filter.nome());
         var specification = LeitorSpecification.withFilters(filter);
         return repository.findAll(specification, pageable);

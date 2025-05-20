@@ -1,5 +1,7 @@
 package br.com.fiap.mottuGestor.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/patios")
 @Slf4j
 public class PatioController {
-    public record patioFilter(String nome) {
+    public record patioFilter(String nome, String endereco, int capacidade) {
     }
 
     @Autowired
@@ -41,8 +43,8 @@ public class PatioController {
     @Cacheable("patios")
     @Operation(description = "Listar patios", tags = "patios", summary = "Lista de patios")
     public Page<Patio> index(patioFilter filter,
-            @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("Buscando patios com filtro", filter.nome(), filter.endereco(), filter.capacidade();
+            @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("Buscando patios com filtro", filter.nome(), filter.endereco(), filter.capacidade());
         var specification = PatioSpecification.withFilters(filter);
         return repository.findAll(specification, pageable);
     }

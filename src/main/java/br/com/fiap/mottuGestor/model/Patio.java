@@ -30,5 +30,5 @@ public class Patio {
     private String endereco;
 
     @Positive(message = "deve ser maior que zero")
-    private BigDecimal capacidade;
+    private int capacidade;
 }

@@ -48,7 +48,7 @@ public class MotoController {
     @Cacheable("motos")
     @Operation(description = "Listar motos", tags = "motos", summary = "Lista de motos")
     public Page<Moto> index(MotoFilter filter,
-            @PageableDefault(size = 10, sort = "placa", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 5, sort = "placa", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando motos com filtro", filter.placa(), filter.modelo(), filter.servico());
         var specification = MotoSpecification.withFilters(filter);
         return repository.findAll(specification, pageable);

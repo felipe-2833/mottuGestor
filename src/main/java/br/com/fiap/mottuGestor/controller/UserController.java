@@ -1,0 +1,86 @@
+package br.com.fiap.mottuGestor.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import br.com.fiap.mottuGestor.model.User;
+import br.com.fiap.mottuGestor.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@RequestMapping("/Users")
+@Slf4j
+public class UserController {
+
+    @Autowired
+    private UserRepository repository;
+
+    @GetMapping
+    @Cacheable("users")
+    @Operation(description = "Listar Users", tags = "Users", summary = "Lista de Users")
+    public Page<User> index(@PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("Buscando Users");
+        return repository.findAll(pageable);
+    }
+
+    @PostMapping
+    @CacheEvict(value = "users", allEntries = true)
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(responses = {
+            @ApiResponse(responseCode = "400", description = "Falha na validação")
+    })
+    public User create(@RequestBody @Valid User user) {
+        log.info("Cadastrando User " + user.getNome());
+        return repository.save(user);
+    }
+
+    @GetMapping("{id_user}")
+    @Operation(description = "Listar user pelo id", tags = "users", summary = "Listar user pelo id")
+    public User get(@PathVariable Long id_user) {
+        log.info("Buscando User " + id_user);
+        return getUser(id_user);
+    }
+
+    @DeleteMapping("{id_user}")
+    @Operation(description = "Deletar user pelo id", tags = "users", summary = "Deletar user")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void destroy(@PathVariable Long id_user) {
+        log.info("Apagando User " + id_user);
+        repository.delete(getUser(id_user));
+    }
+
+    @PutMapping("{id_user}")
+    public User update(@PathVariable Long id_user, @RequestBody @Valid User user) {
+        log.info("Atualizando user " + id_user + " " + user);
+        getUser(id_user);
+        User.setId_user(id_user);
+        return repository.save(user);
+    }
+
+    private User getUser(Long id_User) {
+        return repository.findById(id_User)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "User não encontrado"));
+    }
+}
