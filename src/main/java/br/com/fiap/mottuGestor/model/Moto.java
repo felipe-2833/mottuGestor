@@ -49,9 +49,5 @@ public class Moto {
     @ManyToOne
     @JsonIgnore
     private Leitor leitor;
-
-    @ManyToOne
-    @JsonIgnore
-    private User user;
     
 }
