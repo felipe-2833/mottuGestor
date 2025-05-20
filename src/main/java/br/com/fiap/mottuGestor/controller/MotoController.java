@@ -65,29 +65,31 @@ public class MotoController {
         return repository.save(moto);
     }
 
-    @GetMapping("{id}")
-    public Moto get(@PathVariable Long id) {
-        log.info("Buscando moto " + id);
-        return getMoto(id);
+    @GetMapping("{id_moto}")
+    @Operation(description = "Listar moto pelo id", tags = "motos", summary = "Listar de moto pelo id")
+    public Moto get(@PathVariable Long id_moto) {
+        log.info("Buscando moto " + id_moto);
+        return getMoto(id_moto);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id_moto}")
+    @Operation(description = "Deletar moto pelo id", tags = "motos", summary = "Deletar moto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void destroy(@PathVariable Long id) {
-        log.info("Apagando moto " + id);
-        repository.delete(getMoto(id));
+    public void destroy(@PathVariable Long id_moto) {
+        log.info("Apagando moto " + id_moto);
+        repository.delete(getMoto(id_moto));
     }
 
-    @PutMapping("{id}")
-    public Moto update(@PathVariable Long id, @RequestBody @Valid Moto moto) {
-        log.info("Atualizando moto " + id + " " + moto);
-        getMoto(id);
-        moto.setId(id);
+    @PutMapping("{id_moto}")
+    public Moto update(@PathVariable Long id_moto, @RequestBody @Valid Moto moto) {
+        log.info("Atualizando moto " + id_moto + " " + moto);
+        getMoto(id_moto);
+        moto.setId_moto(id_moto);
         return repository.save(moto);
     }
 
-    private Moto getMoto(Long id) {
-        return repository.findById(id)
+    private Moto getMoto(Long id_moto) {
+        return repository.findById(id_moto)
                 .orElseThrow(
                         () -> new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
