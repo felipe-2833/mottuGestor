@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/Users")
+@RequestMapping("/users")
 @Slf4j
 public class UserController {
 
@@ -36,9 +36,9 @@ public class UserController {
 
     @GetMapping
     @Cacheable("users")
-    @Operation(description = "Listar Users", tags = "Users", summary = "Lista de Users")
-    public Page<User> index(@PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("Buscando Users");
+    @Operation(description = "Listar users", tags = "users", summary = "Lista de users")
+    public Page<User> index(@PageableDefault(sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("Buscando users");
         return repository.findAll(pageable);
     }
 
@@ -47,16 +47,16 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(responses = {
             @ApiResponse(responseCode = "400", description = "Falha na validação")
-    })
+    }, description = "Cadastrar user", tags = "users", summary = "Cadastrar user")
     public User create(@RequestBody @Valid User user) {
-        log.info("Cadastrando User " + user.getNome());
+        log.info("Cadastrando user " + user.getNome());
         return repository.save(user);
     }
 
     @GetMapping("{id_user}")
     @Operation(description = "Listar user pelo id", tags = "users", summary = "Listar user pelo id")
     public User get(@PathVariable Long id_user) {
-        log.info("Buscando User " + id_user);
+        log.info("Buscando user " + id_user);
         return getUser(id_user);
     }
 
@@ -64,23 +64,24 @@ public class UserController {
     @Operation(description = "Deletar user pelo id", tags = "users", summary = "Deletar user")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable Long id_user) {
-        log.info("Apagando User " + id_user);
+        log.info("Apagando user " + id_user);
         repository.delete(getUser(id_user));
     }
 
     @PutMapping("{id_user}")
+    @Operation(description = "Update user pelo id", tags = "users", summary = "Update user pelo id")
     public User update(@PathVariable Long id_user, @RequestBody @Valid User user) {
         log.info("Atualizando user " + id_user + " " + user);
         getUser(id_user);
-        User.setId_user(id_user);
+        user.setId_user(id_user);
         return repository.save(user);
     }
 
-    private User getUser(Long id_User) {
-        return repository.findById(id_User)
+    private User getUser(Long id_user) {
+        return repository.findById(id_user)
                 .orElseThrow(
                         () -> new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
-                                "User não encontrado"));
+                                "user não encontrado"));
     }
 }

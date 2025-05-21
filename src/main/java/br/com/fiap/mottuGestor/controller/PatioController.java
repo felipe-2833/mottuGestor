@@ -1,7 +1,5 @@
 package br.com.fiap.mottuGestor.controller;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/patios")
 @Slf4j
 public class PatioController {
-    public record patioFilter(String nome, String endereco, int capacidade) {
+    public record patioFilter(String nome, String endereco, Double capacidade) {
     }
 
     @Autowired
@@ -54,7 +52,7 @@ public class PatioController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(responses = {
             @ApiResponse(responseCode = "400", description = "Falha na validação")
-    })
+    },description = "Cadastrar patios", tags = "patios", summary = "Cadastrar de patios")
     public Patio create(@RequestBody @Valid Patio patio) {
         log.info("Cadastrando patio " + patio.getNome());
         return repository.save(patio);
@@ -76,6 +74,7 @@ public class PatioController {
     }
 
     @PutMapping("{id_patio}")
+    @Operation(description = "Update patio pelo id", tags = "patios", summary = "update patio")
     public Patio update(@PathVariable Long id_patio, @RequestBody @Valid Patio patio) {
         log.info("Atualizando patio " + id_patio + " " + patio);
         getPatio(id_patio);

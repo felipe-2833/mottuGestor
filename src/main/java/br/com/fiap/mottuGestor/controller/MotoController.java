@@ -1,8 +1,6 @@
 package br.com.fiap.mottuGestor.controller;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -12,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.mottuGestor.model.Moto;
-import br.com.fiap.mottuGestor.model.User;
 import br.com.fiap.mottuGestor.repository.MotoRepository;
 import br.com.fiap.mottuGestor.specification.MotoSpecification;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,7 +55,7 @@ public class MotoController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(responses = {
             @ApiResponse(responseCode = "400", description = "Falha na validação")
-    })
+    }, description = "Cadastrar motos", tags = "motos", summary = "Cadastro de motos")
     public Moto create(@RequestBody @Valid Moto moto) {
         log.info("Cadastrando moto " + moto.getPlaca());
         return repository.save(moto);
@@ -81,6 +77,7 @@ public class MotoController {
     }
 
     @PutMapping("{id_moto}")
+    @Operation(description = "Update moto pelo id", tags = "motos", summary = "Update moto")
     public Moto update(@PathVariable Long id_moto, @RequestBody @Valid Moto moto) {
         log.info("Atualizando moto " + id_moto + " " + moto);
         getMoto(id_moto);

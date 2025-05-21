@@ -1,7 +1,5 @@
 package br.com.fiap.mottuGestor.model;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,5 +28,5 @@ public class Patio {
     private String endereco;
 
     @Positive(message = "deve ser maior que zero")
-    private int capacidade;
+    private Double capacidade;
 }

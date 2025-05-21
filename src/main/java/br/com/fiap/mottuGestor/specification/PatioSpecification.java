@@ -26,7 +26,7 @@ public class PatioSpecification {
                                 cb.lower(root.get("endereco")), "%" + filter.endereco().toLowerCase() + "%"));
             }
 
-            if (filter.capacidade() != 0 && filter.capacidade() > 0 && filter.capacidade() <= 10000) {
+            if (filter.capacidade() != null && filter.capacidade() > 0.0 && filter.capacidade() <= 10000.0) {
                 predicates.add(cb.equal(root.get("capacidade"), filter.capacidade()));
             }
 

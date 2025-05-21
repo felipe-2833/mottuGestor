@@ -1,7 +1,5 @@
 package br.com.fiap.mottuGestor.controller;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -55,7 +53,7 @@ public class LeitorController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(responses = {
             @ApiResponse(responseCode = "400", description = "Falha na validação")
-    })
+    }, description = "cadastrar leitores", tags = "leitores", summary = "Cadastro de leitores")
     public Leitor create(@RequestBody @Valid Leitor leitor) {
         log.info("Cadastrando leitor " + leitor.getNome());
         return repository.save(leitor);
@@ -77,6 +75,7 @@ public class LeitorController {
     }
 
     @PutMapping("{id_leitor}")
+    @Operation(description = "update leitor pelo id", tags = "leitores", summary = "Update leitor")
     public Leitor update(@PathVariable Long id_leitor, @RequestBody @Valid Leitor leitor) {
         log.info("Atualizando leitor " + id_leitor + " " + leitor);
         getLeitor(id_leitor);

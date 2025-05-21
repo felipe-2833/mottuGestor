@@ -55,7 +55,7 @@ public class MovimentController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(responses = {
             @ApiResponse(responseCode = "400", description = "Falha na validação")
-    })
+    }, description = "Cadastrar moviments", tags = "moviments", summary = "Cadastro de moviments")
     public Moviment create(@RequestBody @Valid Moviment moviment) {
         log.info("Cadastrando moviment " + moviment.getId_moviment());
         return repository.save(moviment);
@@ -77,6 +77,7 @@ public class MovimentController {
     }
 
     @PutMapping("{id_moviment}")
+    @Operation(description = "update moviment pelo id", tags = "moviments", summary = "update moviment")
     public Moviment update(@PathVariable Long id_moviment, @RequestBody @Valid Moviment moviment) {
         log.info("Atualizando moviment " + id_moviment + " " + moviment);
         getMoviment(id_moviment);
