@@ -39,7 +39,11 @@ public class PatioController {
 
     @GetMapping
     @Cacheable("patios")
-    @Operation(description = "Listar patios", tags = "patios", summary = "Lista de patios")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos filtros ou parâmetros"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar patios", tags = "patios", summary = "Lista de patios")
     public Page<Patio> index(patioFilter filter,
             @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando patios com filtro", filter.nome(), filter.endereco(), filter.capacidade());
@@ -59,14 +63,24 @@ public class PatioController {
     }
 
     @GetMapping("{id_patio}")
-    @Operation(description = "Listar patio pelo id", tags = "patios", summary = "Listar patio pelo id")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro encontrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar patio pelo id", tags = "patios", summary = "Listar patio pelo id")
     public Patio get(@PathVariable Long id_patio) {
         log.info("Buscando patio " + id_patio);
         return getPatio(id_patio);
     }
 
     @DeleteMapping("{id_patio}")
-    @Operation(description = "Deletar patio pelo id", tags = "patios", summary = "Deletar patio")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "204", description = "Registro removido com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Deletar patio pelo id", tags = "patios", summary = "Deletar patio")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable Long id_patio) {
         log.info("Apagando patio " + id_patio);
@@ -74,7 +88,12 @@ public class PatioController {
     }
 
     @PutMapping("{id_patio}")
-    @Operation(description = "Update patio pelo id", tags = "patios", summary = "update patio")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos dados"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Update patio pelo id", tags = "patios", summary = "update patio")
     public Patio update(@PathVariable Long id_patio, @RequestBody @Valid Patio patio) {
         log.info("Atualizando patio " + id_patio + " " + patio);
         getPatio(id_patio);

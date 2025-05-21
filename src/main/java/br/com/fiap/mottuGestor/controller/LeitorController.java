@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/leitores")
 @Slf4j
 public class LeitorController {
-     public record LeitorFilter(String nome, StatusType status) {
+    public record LeitorFilter(String nome, StatusType status) {
     }
 
     @Autowired
@@ -40,7 +40,11 @@ public class LeitorController {
 
     @GetMapping
     @Cacheable("leitores")
-    @Operation(description = "Listar leitores", tags = "leitores", summary = "Lista de leitores")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos filtros ou parâmetros"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    }, description = "Listar leitores", tags = "leitores", summary = "Lista de leitores")
     public Page<Leitor> index(LeitorFilter filter,
             @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando leitores com filtro", filter.nome());
@@ -60,14 +64,24 @@ public class LeitorController {
     }
 
     @GetMapping("{id_leitor}")
-    @Operation(description = "Listar leitor pelo id", tags = "leitores", summary = "Listar de leitor pelo id")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro encontrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    }, description = "Listar leitor pelo id", tags = "leitores", summary = "Listar de leitor pelo id")
     public Leitor get(@PathVariable Long id_leitor) {
         log.info("Buscando leitor " + id_leitor);
         return getLeitor(id_leitor);
     }
 
     @DeleteMapping("{id_leitor}")
-    @Operation(description = "Deletar leitor pelo id", tags = "leitores", summary = "Deletar leitor")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "204", description = "Registro removido com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    }, description = "Deletar leitor pelo id", tags = "leitores", summary = "Deletar leitor")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable Long id_leitor) {
         log.info("Apagando leitor " + id_leitor);
@@ -75,7 +89,12 @@ public class LeitorController {
     }
 
     @PutMapping("{id_leitor}")
-    @Operation(description = "update leitor pelo id", tags = "leitores", summary = "Update leitor")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos dados"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    }, description = "update leitor pelo id", tags = "leitores", summary = "Update leitor")
     public Leitor update(@PathVariable Long id_leitor, @RequestBody @Valid Leitor leitor) {
         log.info("Atualizando leitor " + id_leitor + " " + leitor);
         getLeitor(id_leitor);

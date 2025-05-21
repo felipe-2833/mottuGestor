@@ -42,7 +42,11 @@ public class MovimentController {
 
     @GetMapping
     @Cacheable("moviments")
-    @Operation(description = "Listar moviments", tags = "moviments", summary = "Lista de moviments")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos filtros ou parâmetros"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar moviments", tags = "moviments", summary = "Lista de moviments")
     public Page<Moviment> index(MovimentFilter filter,
             @PageableDefault(size = 5, sort = "movimentType", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando moviments com filtro", filter.movimentType());
@@ -62,14 +66,24 @@ public class MovimentController {
     }
 
     @GetMapping("{id_moviment}")
-    @Operation(description = "Listar moviment pelo id", tags = "moviments", summary = "Listar de moviment pelo id")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro encontrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar moviment pelo id", tags = "moviments", summary = "Listar de moviment pelo id")
     public Moviment get(@PathVariable Long id_moviment) {
         log.info("Buscando moviment " + id_moviment);
         return getMoviment(id_moviment);
     }
 
     @DeleteMapping("{id_moviment}")
-    @Operation(description = "Deletar moviment pelo id", tags = "moviments", summary = "Deletar moviment")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "204", description = "Registro removido com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Deletar moviment pelo id", tags = "moviments", summary = "Deletar moviment")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable Long id_moviment) {
         log.info("Apagando moviment " + id_moviment);
@@ -77,7 +91,12 @@ public class MovimentController {
     }
 
     @PutMapping("{id_moviment}")
-    @Operation(description = "update moviment pelo id", tags = "moviments", summary = "update moviment")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos dados"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "update moviment pelo id", tags = "moviments", summary = "update moviment")
     public Moviment update(@PathVariable Long id_moviment, @RequestBody @Valid Moviment moviment) {
         log.info("Atualizando moviment " + id_moviment + " " + moviment);
         getMoviment(id_moviment);

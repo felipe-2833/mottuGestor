@@ -36,7 +36,11 @@ public class UserController {
 
     @GetMapping
     @Cacheable("users")
-    @Operation(description = "Listar users", tags = "users", summary = "Lista de users")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos filtros ou parâmetros"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar users", tags = "users", summary = "Lista de users")
     public Page<User> index(@PageableDefault(sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando users");
         return repository.findAll(pageable);
@@ -54,14 +58,24 @@ public class UserController {
     }
 
     @GetMapping("{id_user}")
-    @Operation(description = "Listar user pelo id", tags = "users", summary = "Listar user pelo id")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro encontrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar user pelo id", tags = "users", summary = "Listar user pelo id")
     public User get(@PathVariable Long id_user) {
         log.info("Buscando user " + id_user);
         return getUser(id_user);
     }
 
     @DeleteMapping("{id_user}")
-    @Operation(description = "Deletar user pelo id", tags = "users", summary = "Deletar user")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "204", description = "Registro removido com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Deletar user pelo id", tags = "users", summary = "Deletar user")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable Long id_user) {
         log.info("Apagando user " + id_user);
@@ -69,7 +83,12 @@ public class UserController {
     }
 
     @PutMapping("{id_user}")
-    @Operation(description = "Update user pelo id", tags = "users", summary = "Update user pelo id")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos dados"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Update user pelo id", tags = "users", summary = "Update user pelo id")
     public User update(@PathVariable Long id_user, @RequestBody @Valid User user) {
         log.info("Atualizando user " + id_user + " " + user);
         getUser(id_user);

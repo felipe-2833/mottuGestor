@@ -42,7 +42,11 @@ public class MotoController {
 
     @GetMapping
     @Cacheable("motos")
-    @Operation(description = "Listar motos", tags = "motos", summary = "Lista de motos")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Listagem realizada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos filtros ou parâmetros"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar motos", tags = "motos", summary = "Lista de motos")
     public Page<Moto> index(MotoFilter filter,
             @PageableDefault(size = 5, sort = "placa", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando motos com filtro", filter.placa(), filter.modelo(), filter.servico());
@@ -62,14 +66,24 @@ public class MotoController {
     }
 
     @GetMapping("{id_moto}")
-    @Operation(description = "Listar moto pelo id", tags = "motos", summary = "Listar de moto pelo id")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro encontrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Listar moto pelo id", tags = "motos", summary = "Listar de moto pelo id")
     public Moto get(@PathVariable Long id_moto) {
         log.info("Buscando moto " + id_moto);
         return getMoto(id_moto);
     }
 
     @DeleteMapping("{id_moto}")
-    @Operation(description = "Deletar moto pelo id", tags = "motos", summary = "Deletar moto")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "204", description = "Registro removido com sucesso"),
+        @ApiResponse(responseCode = "400", description = "ID inválido"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Deletar moto pelo id", tags = "motos", summary = "Deletar moto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable Long id_moto) {
         log.info("Apagando moto " + id_moto);
@@ -77,7 +91,12 @@ public class MotoController {
     }
 
     @PutMapping("{id_moto}")
-    @Operation(description = "Update moto pelo id", tags = "motos", summary = "Update moto")
+    @Operation(responses = {
+        @ApiResponse(responseCode = "200", description = "Registro atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Falha na validação dos dados"),
+        @ApiResponse(responseCode = "404", description = "Registro não encontrado"),
+        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+},description = "Update moto pelo id", tags = "motos", summary = "Update moto")
     public Moto update(@PathVariable Long id_moto, @RequestBody @Valid Moto moto) {
         log.info("Atualizando moto " + id_moto + " " + moto);
         getMoto(id_moto);
