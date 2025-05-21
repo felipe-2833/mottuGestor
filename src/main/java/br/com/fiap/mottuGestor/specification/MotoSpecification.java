@@ -27,11 +27,11 @@ public class MotoSpecification {
             
             if (filter.startDate() != null && filter.endDate() != null) {
                 predicates.add(
-                        cb.between(root.get("date"), filter.startDate(), filter.endDate()));
+                        cb.between(root.get("data_cadastro"), filter.startDate(), filter.endDate()));
             }
 
             if (filter.startDate() != null && filter.endDate() == null) {
-                predicates.add(cb.equal(root.get("date"), filter.startDate()));
+                predicates.add(cb.equal(root.get("data_cadastro"), filter.startDate()));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

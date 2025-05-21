@@ -66,7 +66,7 @@ public class DataBaseSeeder {
             leitores.add(Leitor.builder()
                 .nome("Leitor " + (i+1))
                 .status(i % 2 == 0 ? StatusType.ATIVO : StatusType.INATIVO)
-                .patio(patios.get(i % patios.size()))
+                .patio(patios.get(new Random().nextInt(patios.size())))
                 .build());
         }
         leitorRepository.saveAll(leitores);
@@ -81,8 +81,8 @@ public class DataBaseSeeder {
                     .modelo("Modelo" + i)
                     .rfid_tag("RFID" + i)
                     .data_cadastro(LocalDate.now().minusDays(random.nextInt(100)))
-                    .serviço("Locação")
-                    .leitor(leitores.get(random.nextInt(leitores.size())))
+                    .servico("Locação")
+                    .leitor(leitores.get(new Random().nextInt(leitores.size())))
                     .build());
         }
         motoRepository.saveAll(motos);
@@ -92,9 +92,10 @@ public class DataBaseSeeder {
         for (int i = 0; i < 10; i++) {
             moviments.add(Moviment.builder()
                 .data_evento(LocalDate.now().minusDays(random.nextInt(30)))
-                .patio(patios.get(i % patios.size()))
-                .leitor(leitores.get(i % leitores.size()))
-                .moto(motos.get(i % motos.size()))
+                .patio(patios.get(new Random().nextInt(patios.size())))
+                .leitor(leitores.get(new Random().nextInt(leitores.size())))
+                .moto(motos.get(new Random().nextInt(motos.size())))
+                .user(users.get(new Random().nextInt(users.size())))
                 .movimentType(MovimentType.values()[random.nextInt(MovimentType.values().length)])
                 .build());
         }

@@ -40,11 +40,10 @@ public class Moto {
     private String rfid_tag;
 
     @PastOrPresent(message = "não pode ser no futuro")
-    @JsonIgnore
     private LocalDate data_cadastro;
 
     @NotBlank(message = "campo obrigatório")
-    private String serviço;
+    private String servico;
 
     @ManyToOne
     @JsonIgnore

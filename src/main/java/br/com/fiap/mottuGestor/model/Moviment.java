@@ -30,7 +30,6 @@ public class Moviment {
     private Long id_moviment;
 
     @PastOrPresent(message = "não pode ser no futuro")
-    @JsonIgnore
     private LocalDate data_evento;
 
     @ManyToOne
