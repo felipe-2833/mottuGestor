@@ -213,7 +213,7 @@ chmod +x deploy_script.sh
 Depois, siga as instruções listadas!
 
 
-Comandos a serem executados após o a execução do script e da conexão na VM:
+Comandos a serem executados após o a execução do script e da conexão na VM (Certifique-se que o IP da VM está correto):
 ```json
 sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 ```
