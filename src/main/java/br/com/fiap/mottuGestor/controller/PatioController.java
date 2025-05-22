@@ -1,5 +1,6 @@
 package br.com.fiap.mottuGestor.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -45,7 +46,7 @@ public class PatioController {
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
 },description = "Listar patios", tags = "patios", summary = "Lista de patios")
     public Page<Patio> index(patioFilter filter,
-            @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando patios com filtro", filter.nome(), filter.endereco(), filter.capacidade());
         var specification = PatioSpecification.withFilters(filter);
         return repository.findAll(specification, pageable);

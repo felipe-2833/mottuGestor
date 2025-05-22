@@ -1,5 +1,6 @@
 package br.com.fiap.mottuGestor.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,7 +42,8 @@ public class UserController {
         @ApiResponse(responseCode = "400", description = "Falha na validação dos filtros ou parâmetros"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
 },description = "Listar users", tags = "users", summary = "Lista de users")
-    public Page<User> index(@PageableDefault(sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<User> index(
+        @ParameterObject @PageableDefault(sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando users");
         return repository.findAll(pageable);
     }

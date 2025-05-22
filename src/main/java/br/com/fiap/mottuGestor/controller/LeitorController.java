@@ -1,5 +1,6 @@
 package br.com.fiap.mottuGestor.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -46,7 +47,7 @@ public class LeitorController {
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     }, description = "Listar leitores", tags = "leitores", summary = "Lista de leitores")
     public Page<Leitor> index(LeitorFilter filter,
-            @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando leitores com filtro", filter.nome());
         var specification = LeitorSpecification.withFilters(filter);
         return repository.findAll(specification, pageable);

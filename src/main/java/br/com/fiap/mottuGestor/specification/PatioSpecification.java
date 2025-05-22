@@ -27,7 +27,7 @@ public class PatioSpecification {
             }
 
             if (filter.capacidade() != null && filter.capacidade() > 0.0 && filter.capacidade() <= 10000.0) {
-                predicates.add(cb.equal(root.get("capacidade"), filter.capacidade()));
+                predicates.add(cb.between(root.get("capacidade"), 0.0, filter.capacidade()));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

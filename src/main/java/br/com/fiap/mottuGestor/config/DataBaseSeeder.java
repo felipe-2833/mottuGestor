@@ -55,7 +55,7 @@ public class DataBaseSeeder {
             patios.add(Patio.builder()
                 .nome("Pátio " + i)
                 .endereco("Rua Exemplo, " + i)
-                .capacidade(100.0 + i * 10)
+                .capacidade(300.0 + i * 10)
                 .build());
         }
         patioRepository.saveAll(patios);

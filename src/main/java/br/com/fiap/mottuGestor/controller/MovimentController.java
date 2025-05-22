@@ -2,6 +2,7 @@ package br.com.fiap.mottuGestor.controller;
 
 import java.time.LocalDate;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -48,7 +49,7 @@ public class MovimentController {
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
 },description = "Listar moviments", tags = "moviments", summary = "Lista de moviments")
     public Page<Moviment> index(MovimentFilter filter,
-            @PageableDefault(size = 5, sort = "movimentType", direction = Sort.Direction.DESC) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, sort = "movimentType", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("Buscando moviments com filtro", filter.movimentType());
         var specification = MovimentSpecification.withFilters(filter);
         return repository.findAll(specification, pageable);

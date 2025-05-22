@@ -52,6 +52,8 @@ cd mottuGestor
 
 Acesse o Swagger: http://localhost:8080/swagger-ui/index.html
 
+### Em todas as requisições que necessitam de body é necessario retirar o campo id do json
+
 ### 1. Criar moto (POST)
 **Endpoint**: `POST /motos`
 
@@ -86,13 +88,7 @@ Parâmetros de filtro de pesquisa:
 | `startDate` | 2023-01-01 | Data inicial de cadastro |
 | `endDate`   | 2023-12-31 | Data final de cadastro   |
 
-Parâmetros de paginação:
-
-| Parâmetro | Tipo    | Padrão     | Exemplo    | Descrição                               |
-| --------- | ------- | ---------- | ---------- | --------------------------------------- |
-| `page`    | Integer | 0          | 1          | Número da página (começa em 0)          |
-| `size`    | Integer | 5          | 10         | Quantidade de itens por página          |
-| `sort`    | String  | placa,desc | modelo,asc | Campo(s) para ordenação (campo,direção) |
+Se não quiser usar filtros (no swagger), deixe os campos vaios ("" ou 0).
 
 
 ### 3. Buscar moto por ID (GET)
@@ -121,7 +117,6 @@ Passos:
 
 ```json
 {
-  "id_moto": 1,
   "placa": "XYZ9A87",
   "modelo": "Yamaha Factor 150",
   "rfid_tag": "TAG654321",
