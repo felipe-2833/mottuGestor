@@ -88,7 +88,7 @@ Parâmetros de filtro de pesquisa:
 | `startDate` | 2023-01-01 | Data inicial de cadastro |
 | `endDate`   | 2023-12-31 | Data final de cadastro   |
 
-Se não quiser usar filtros (no swagger), deixe os campos vaios ("" ou 0).
+Se não quiser usar filtros (no Swagger), deixe os campos vazios ("" ou 0).
 
 
 ### 3. Buscar moto por ID (GET)
@@ -184,7 +184,7 @@ ssh $ADMIN_USERNAME@$PUBLIC_IP
 
 # Execute os seguintes comandos na VM:
 
-sudo dnf remove -y podman-docker
+sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo dnf install -y docker-ce docker-ce-cli containerd.io
 sudo systemctl start docker
 sudo systemctl enable docker
@@ -195,24 +195,9 @@ cd mottuGestor
 mvn clean package
 docker build -t myapp-image .
 docker run -d -p 8080:8080 myapp-image
-curl http://{IP_DA_VM}/swagger-ui/index.html
+curl http://{IP_DA_VM}:8080/swagger-ui/index.html
 
 EOF
-```
-
-```json
-sudo dnf remove -y podman-docker
-sudo dnf install -y docker-ce docker-ce-cli containerd.io
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo yum install -y git
-sudo dnf install -y maven
-git clone https://github.com/felipe-2833/mottuGestor.git
-cd mottuGestor
-mvn clean package
-docker build -t myapp-image .
-docker run -d -p 8080:8080 myapp-image
-curl http://{IP_DA_VM}/swagger-ui/index.html
 ```
 
 Depois de colar, pressione Esc, digite: ":wq"
@@ -226,6 +211,43 @@ chmod +x deploy_script.sh
 ```
 
 Depois, siga as instruções listadas!
+
+
+Comandos a serem executados após o a execução do script e da conexão na VM:
+```json
+sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+```
+```json
+sudo dnf install -y docker-ce docker-ce-cli containerd.io
+```
+```json
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+```json
+sudo yum install -y git
+```
+```json
+sudo dnf install -y maven
+```
+```json
+git clone https://github.com/felipe-2833/mottuGestor.git
+```
+```json
+cd mottuGestor
+```
+```json
+mvn clean package
+```
+```json
+sudo docker build -t myapp-image .
+```
+```json
+sudo docker run -d -p 8080:8080 myapp-image
+```
+```json
+curl http://{IP_DA_VM}:8080/swagger-ui/index.html
+```
 
 ## Equipe
 
