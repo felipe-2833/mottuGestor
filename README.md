@@ -171,9 +171,6 @@ az vm open-port --resource-group $RESOURCE_GROUP --name $VM_NAME --port $PORT
 echo "Esperando provisionamento..."
 sleep 10
 
-PUBLIC_IP=$(az vm list -d -o tsv --query [0].publicIps)
-echo "IP da VM: $PUBLIC_IP"
-
 echo "Conecte na VM via ssh e execute os comandos de instalação do Docker"
 
 echo "ssh $ADMIN_USERNAME@$PUBLIC_IP"
@@ -195,7 +192,7 @@ cd mottuGestor
 mvn clean package
 docker build -t myapp-image .
 docker run -d -p 8080:8080 myapp-image
-curl http://{IP_DA_VM}:8080/swagger-ui/index.html
+curl http://{$PUBLIC_IP}:8080/swagger-ui/index.html
 
 EOF
 ```
