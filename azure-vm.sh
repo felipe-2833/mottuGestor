@@ -1,5 +1,5 @@
 RESOURCE_GROUP="meuGrupoDeRecursos"
-LOCATION="brazilsouth"  # ou sua região preferida
+LOCATION="brazilsouth"
 VM_NAME="minhaVM"
 ADMIN_USERNAME="azureuser"
 IMAGE="almalinux:almalinux-x86_64:9-gen2:9.5.202411260"
