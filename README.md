@@ -174,11 +174,11 @@ sleep 10
 
 echo "Conecte na VM via ssh e execute os comandos de instalação do Docker"
 
-echo "ssh $ADMIN_USERNAME@(PUBLIC_IP)"
+echo "ssh $ADMIN_USERNAME@IP_DA_VM"
 
 cat << EOF
 # Após conectar na VM com:
-ssh $ADMIN_USERNAME@(PUBLIC_IP)
+ssh $ADMIN_USERNAME@IP_DA_VM
 
 # Execute os seguintes comandos na VM:
 
@@ -193,7 +193,7 @@ cd mottuGestor
 mvn clean package
 docker build -t myapp-image .
 docker run -d -p 8080:8080 myapp-image
-curl http://(PUBLIC_IP):8080/swagger-ui/index.html
+curl http://IP_DA_VM:8080/swagger-ui/index.html
 
 EOF
 ```
