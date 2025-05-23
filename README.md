@@ -24,6 +24,7 @@ O Mottu Gestor é uma solução inteligente de mapeamento e gestão de pátios p
 
 - Java JDK 17+
 - Maven 3.8+
+- Git
 - Docker (opcional para containerização)
 
 ## Execução do projeto (Visual Studio Code)
@@ -50,9 +51,9 @@ cd mottuGestor
 
 ## Instruções para envio de requisições
 
-Acesse o Swagger: http://localhost:8080/swagger-ui/index.html
+Acesse o Swagger: http://localhost:8080/swagger-ui/index.html (ou http://(PUBLIC_IP):8080/swagger-ui/index.html, caso esteja dentro do container.)
 
-### Em todas as requisições que necessitam de body é necessario retirar o campo id do json
+### Em todas as requisições que necessitam de body é necessario retirar o campo id do json!
 
 ### 1. Criar moto (POST)
 **Endpoint**: `POST /motos`
